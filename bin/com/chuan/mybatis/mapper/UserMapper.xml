@@ -10,6 +10,10 @@
         SELECT * FROM Holds
     </select>
     
+    <select id="findByGoodsAndDate" resultType="Holds">  <!-- 书写 SQL 语句 -->
+        SELECT * FROM Holds where goods = #{goods} and date = #{date}
+    </select>
+    
     <!-- 新增功能，在SQL语句中有参数，并以实体来封装参数 -->
     <insert id="insert" parameterType="Holds">
         INSERT INTO Holds (id,goods,date,rate,compName,value,increase,type,agreement) VALUES (#{id},#{goods},#{date},#{rate},#{compName},#{value},#{increase},#{type},#{agreement})
