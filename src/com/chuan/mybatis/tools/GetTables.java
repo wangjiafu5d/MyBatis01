@@ -161,19 +161,19 @@ public class GetTables {
 			return true;
 		}
 	}
-	private static String dateAdd(String date , int add) {
-		String rulstDate = "";
+	public static String dateAdd(String date , int add) {
+		String resultDate = "";
 		try {
 			java.util.Date sdate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(sdate);
 			calendar.add(Calendar.DATE, add);
 			sdate = calendar.getTime();
-			rulstDate = new SimpleDateFormat("yyyy-MM-dd").format(sdate);
+			resultDate = new SimpleDateFormat("yyyy-MM-dd").format(sdate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return rulstDate;
+		return resultDate;
 	}
 	private static boolean isWeekend(String bDate)  {
         DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");

@@ -76,9 +76,8 @@ public class Holds {
 				+ "日期： " + date + " "
 				+ "排名： " + rate + " "
 				+ "公司： " + compName + " "
-				+ "成交量： " + value + " "
-				+ "增减： " + increase + " "
-				+ "数据种类：" + type + " "
+				+ type + "： " + value + " "
+				+ "增减： " + increase + " "			
 				+ "期货合约：" + agreement;
 	}
 }
