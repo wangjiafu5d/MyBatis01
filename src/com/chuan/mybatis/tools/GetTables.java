@@ -29,9 +29,9 @@ public class GetTables {
 //		List<String> l = new ArrayList<String>();
 //		l.add("TA809");
 //		getTables(l, "2018-09-03");
-		String date = "2018-09-14";
+		String date = "2018-09-17";
 		List<String> ids = GetIds.getIds();
-		for (int i = 0; i < 500; i++) {
+		for (int i = 0; i < 1; i++) {
 			String inputDate = dateAdd(date, 0-i);
 			if (isWeekend(inputDate)) {
 				continue ;
@@ -175,7 +175,7 @@ public class GetTables {
 		}
 		return resultDate;
 	}
-	private static boolean isWeekend(String bDate)  {
+	public static boolean isWeekend(String bDate)  {
         DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date bdate = null;
 		try {

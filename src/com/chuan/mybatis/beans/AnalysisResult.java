@@ -74,15 +74,15 @@ public class AnalysisResult {
 	@Override
 	public String toString() {
 		
-		return "日期： " + date + " "
-				+ "成交前十： " + volumeTopTen + " "
-				+ "成交二十： " + volumeTopTwenty + " "
-				+ "多头前十： " + buyTopTen + " "
-				+ "多头二十： " + buyTopTwenty + " "
-				+ "空头前十： " + sellTopTen + " "
-				+ "空头二十： " + sellTopTwenty + " "			
-				+ "永安成交： " + YAVolume
-				+ "永安多仓： " + YABuy
-				+ "永安空仓： " + YASell;
+		return "日期： " + "\t" + date + "\t"
+				+ "成交前十： " + "\t" + volumeTopTen + "\t"
+				+ "成交二十： " + "\t" + volumeTopTwenty + "\t"
+				+ "多头前十： " + "\t" + buyTopTen + "\t"
+				+ "多头二十： " + "\t" + buyTopTwenty + "\t"
+				+ "空头前十： " + "\t" + sellTopTen + "\t"
+				+ "空头二十： " + "\t" + sellTopTwenty + "\t"			
+				+ "永安成交： " + "\t" + YAVolume + "\t"
+				+ "永安多仓： " + "\t" + YABuy + "\t"
+				+ "永安空仓： " + "\t" + YASell;
 	}
 }

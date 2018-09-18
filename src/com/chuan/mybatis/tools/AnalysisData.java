@@ -1,5 +1,12 @@
 package com.chuan.mybatis.tools;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,7 +22,42 @@ import com.chuan.mybatis.beans.Holds;
 
 public class AnalysisData {
 	public static void main(String[] args) {
-		System.out.println(analysis("cu", "2018-09-05"));;
+		String date = "2018-09-17";
+		File file = new File("C:\\Users\\chuan\\desktop\\MA.xlsx");
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		BufferedWriter br = null;
+		try {
+			 br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));
+		} catch (UnsupportedEncodingException e) {			
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < 110; i++) {
+			date = GetTables.dateAdd(date, -1);
+			if (GetTables.isWeekend(date)) {
+				continue ;
+			}
+			try {
+				br.write(analysis("ma", date).toString()+"\r\n");
+				br.flush();
+			} catch (IOException e) {				
+				e.printStackTrace();
+			}
+			
+//			System.out.println(analysis("ma", date));			
+		}
+		try {
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static AnalysisResult analysis(String goods, String date) {
