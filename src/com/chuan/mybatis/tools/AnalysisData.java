@@ -22,41 +22,18 @@ import com.chuan.mybatis.beans.Holds;
 
 public class AnalysisData {
 	public static void main(String[] args) {
-		String date = "2018-09-17";
-		File file = new File("C:\\Users\\chuan\\desktop\\MA.xlsx");
-		if (!file.exists()) {
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		BufferedWriter br = null;
-		try {
-			 br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));
-		} catch (UnsupportedEncodingException e) {			
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		for (int i = 0; i < 110; i++) {
-			date = GetTables.dateAdd(date, -1);
-			if (GetTables.isWeekend(date)) {
-				continue ;
-			}
-			try {
-				br.write(analysis("ma", date).toString()+"\r\n");
-				br.flush();
-			} catch (IOException e) {				
-				e.printStackTrace();
-			}
-			
-//			System.out.println(analysis("ma", date));			
-		}
-		try {
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		List<String> goodsList = new ArrayList<String>();
+		goodsList.add("ni");
+		goodsList.add("cu");
+		goodsList.add("zn");
+		goodsList.add("al");
+		goodsList.add("ma");
+		goodsList.add("bu");
+		goodsList.add("ta");
+		goodsList.add("fg");
+		String endDate = "2018-09-19";
+		for (String goods : goodsList) {
+			outPutDataToFile(goods, endDate, 1);
 		}
 	}
 
@@ -133,5 +110,50 @@ public class AnalysisData {
 			times++;
 		}
 		return sum;
+	}
+	public static void outPutDataToFile(String goods,String endDate,Integer days) {			
+		File file = new File("C:\\Users\\chuan\\desktop\\"+goods+".xlsx");
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		BufferedWriter br = null;
+		try {
+			 br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), "utf-8"));
+		} catch (UnsupportedEncodingException e) {			
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < days; i++) {
+			String inputDate = GetTables.dateAdd(endDate, -i);			
+			if (GetTables.isWeekend(inputDate)) {
+				continue ;
+			}
+			try {
+				AnalysisResult result = analysis(goods, inputDate);
+				if (i==0) {
+					br.write("日期"+"\t"+"成交前十"+"\t"+"成交二十"+"\t"+"多头前十"	+"\t"+"多头二十"
+				+"\t"+"空头前十"+"\t"+"空头二十"+"\t"+"永安成交"+"\t"+"永安多仓"+"\t"+"永安空仓"+"\r\n");
+				}
+				br.write(result.getDate()+"\t"+result.getVolumeTopTen()+"\t"+result.getVolumeTopTwenty()
+				+"\t"+result.getBuyTopTen()+"\t"+result.getBuyTopTwenty()+"\t"
+						+result.getSellTopTen()+"\t"+result.getSellTopTwenty()+"\t"
+				+result.getYAVolume()+"\t"+result.getYABuy()+"\t"+result.getYASell()+"\r\n");
+				br.flush();
+			} catch (IOException e) {				
+				e.printStackTrace();
+			}
+			
+//			System.out.println(analysis("ma", date));			
+		}
+		try {
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

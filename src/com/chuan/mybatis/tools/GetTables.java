@@ -29,7 +29,7 @@ public class GetTables {
 //		List<String> l = new ArrayList<String>();
 //		l.add("TA809");
 //		getTables(l, "2018-09-03");
-		String date = "2018-09-17";
+		String date = "2018-09-19";
 		List<String> ids = GetIds.getIds();
 		for (int i = 0; i < 1; i++) {
 			String inputDate = dateAdd(date, 0-i);
