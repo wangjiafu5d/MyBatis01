@@ -15,7 +15,17 @@
     </select>
     
     <!-- 新增功能，在SQL语句中有参数，并以实体来封装参数 -->
-    <insert id="insert" parameterType="Holds">
+    <insert id="insertHolds" parameterType="Holds">
         INSERT INTO Holds (id,goods,date,rate,compName,value,increase,type,agreement) VALUES (#{id},#{goods},#{date},#{rate},#{compName},#{value},#{increase},#{type},#{agreement})
     </insert>
+     <insert id="insertPrice" parameterType="Price">
+        INSERT INTO price (id,goods,date,spotPrice,mainContractPrice,agreement) VALUES (#{id},#{goods},#{date},#{spotPrice},#{mainContractPrice},#{agreement})
+    </insert>
+    
+     <delete id="deleteByDate" parameterType="date">
+       DELETE  FROM Holds WHERE date &lt;= #{date}
+    </delete>
+    <delete id="deleteOneDay" parameterType="date">
+       DELETE  FROM Holds WHERE date = #{date}
+    </delete>
 </mapper>

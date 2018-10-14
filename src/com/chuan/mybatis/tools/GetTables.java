@@ -26,15 +26,22 @@ import com.chuan.mybatis.beans.Holds;
 
 public class GetTables {
 	public static void main(String[] args) {
+		String endDate = "2018-10-12";
+		int totalDays = 1;
+		saveToDB(endDate, totalDays);
+	}
+	public static void saveToDB(String endDate,int totalDays) {
 //		List<String> l = new ArrayList<String>();
 //		l.add("TA809");
-//		getTables(l, "2018-09-03");
-		String date = "2018-09-19";
+//		getTables(l, "2018-09-03");		
 		List<String> ids = GetIds.getIds();
-		for (int i = 0; i < 1; i++) {
-			String inputDate = dateAdd(date, 0-i);
-			if (isWeekend(inputDate)) {
+		for (int i = 0; i < totalDays; i++) {
+			String inputDate = DateTool.dateAdd(endDate, 0-i);
+			if (DateTool.isWeekend(inputDate)) {
 				continue ;
+			}
+			if (inputDate.equals("2018-01-01")) {
+				break;
 			}
 			List<Holds> holdsList = new ArrayList<Holds>();			
 			holdsList = getTables(GetAgreements.getAgreements(ids,inputDate), inputDate);
@@ -52,15 +59,14 @@ public class GetTables {
 			
 			SqlSession sqlSession = sqlSessionFactory.openSession(); // 获取到 SqlSession
 			for (Holds holds : holdsList) {
-				sqlSession.insert("com.chuan.mybatis/mapper.UserMapper.insert",holds);
+				sqlSession.insert("com.chuan.mybatis/mapper.UserMapper.insertHolds",holds);
 			}
 			sqlSession.commit();
-			if (inputDate.equals("2018-01-01")) {
-				break;
-			}
+			
 		}		
 //		System.out.println(dateAdd("2018-09-14", -20));
 		// System.out.println(getGoodsName("al1809"));
+		
 	}
 
 	public static List<Holds> getTables(List<String> agreements, String date) {
@@ -73,7 +79,7 @@ public class GetTables {
 		List<Holds> holdsList = new ArrayList<Holds>();
 		for (int i = 0; i < agreements.size(); i++) {
 			String agreement = agreements.get(i);
-			String goods = getGoodsName(agreement);
+			String goods = TextTool.goodsCodeMatch(agreement);
 //			System.out.println(agreement);
 			String pre = "http://service.99qh.com/hold2/MemberHold/GetTableHtml.aspx?date=";
 			String next = "&user=99qh&goods=6&agreement=";
@@ -103,7 +109,7 @@ public class GetTables {
 						// fos.flush();
 					}
 					for (int m = 0; m < tdList.size() / 4; m++) {
-						if (!isEmpty(tdList.get(4*m))) {
+						if (!TextTool.isEmpty(tdList.get(4*m))) {
 							Holds hold = new Holds();
 							hold.setRate(Integer.valueOf(tdList.get(4 * m)));
 							hold.setCompName(tdList.get(4 * m + 1));
@@ -136,61 +142,4 @@ public class GetTables {
 		}
 		return holdsList;
 	}
-
-	private static String getGoodsName(String agreement) {
-		String goodsName = "";
-		String reg = "^[a-zA-Z]+";
-		Pattern p = Pattern.compile(reg);
-		Matcher m = p.matcher(agreement);
-		if (m.find()) {
-			goodsName = m.group(0);
-		} else {
-			System.out.println("未匹配到商品名称");
-		}
-		return goodsName;
-	}
-
-	private static boolean isEmpty(String string) {
-		String reg = "[\\da-z\\u2E80-\\u9FFF]+";
-		Pattern p = Pattern.compile(reg);
-		Matcher m = p.matcher(string);
-		if (m.find()) {
-			return false;
-		} else {
-			// System.out.print("一个空白字符串");
-			return true;
-		}
-	}
-	public static String dateAdd(String date , int add) {
-		String resultDate = "";
-		try {
-			java.util.Date sdate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(sdate);
-			calendar.add(Calendar.DATE, add);
-			sdate = calendar.getTime();
-			resultDate = new SimpleDateFormat("yyyy-MM-dd").format(sdate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return resultDate;
-	}
-	public static boolean isWeekend(String bDate)  {
-        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date bdate = null;
-		try {
-			bdate = format1.parse(bDate);
-		} catch (ParseException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(bdate);
-        if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-            return true;
-        } else{
-            return false;
-        }
- 
- }
 }

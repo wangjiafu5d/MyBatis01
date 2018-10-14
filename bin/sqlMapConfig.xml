@@ -8,7 +8,9 @@
     <!-- 赋别名 -->
 	<typeAliases>
         <typeAlias type="com.chuan.mybatis.beans.Holds" alias="Holds"/>
+          <typeAlias type="com.chuan.mybatis.beans.SpotAndFuturePrice" alias="Price"/>
 	</typeAliases>
+	
 	
     <!-- 配置开发环境，可以配置多个，在具体用时再做切换 -->
     <environments default="test">
