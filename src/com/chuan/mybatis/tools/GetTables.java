@@ -26,7 +26,7 @@ import com.chuan.mybatis.beans.Holds;
 
 public class GetTables {
 	public static void main(String[] args) {
-		String endDate = "2018-10-12";
+		String endDate = "2018-10-15";
 		int totalDays = 1;
 		saveToDB(endDate, totalDays);
 	}
@@ -47,22 +47,12 @@ public class GetTables {
 			holdsList = getTables(GetAgreements.getAgreements(ids,inputDate), inputDate);
 //		holdsList = getTables(l, "2018-09-03");
 //		System.out.println(holdsList.size()+ "  holdsSize");
-			String resource = "sqlMapConfig.xml"; // 定位核心配置文件
-			InputStream inputStream = null;
-			try {
-				inputStream = Resources.getResourceAsStream(resource);
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			}
-			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream); // 创建 SqlSessionFactory
-			
-			SqlSession sqlSession = sqlSessionFactory.openSession(); // 获取到 SqlSession
+			SqlSession sqlSession = GetSessionFactory.sqlSessionFactory.openSession();
 			for (Holds holds : holdsList) {
 				sqlSession.insert("com.chuan.mybatis/mapper.UserMapper.insertHolds",holds);
 			}
 			sqlSession.commit();
-			
+			sqlSession.close();
 		}		
 //		System.out.println(dateAdd("2018-09-14", -20));
 		// System.out.println(getGoodsName("al1809"));

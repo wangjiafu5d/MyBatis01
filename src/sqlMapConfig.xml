@@ -4,30 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    
-    <!-- 赋别名 -->
+
+	<!-- 赋别名 -->
 	<typeAliases>
-        <typeAlias type="com.chuan.mybatis.beans.Holds" alias="Holds"/>
-          <typeAlias type="com.chuan.mybatis.beans.SpotAndFuturePrice" alias="Price"/>
+		<typeAlias type="com.chuan.mybatis.beans.Holds"
+			alias="Holds" />
+		<typeAlias type="com.chuan.mybatis.beans.SpotAndFuturePrice"
+			alias="Price" />
+		<typeAlias type="com.chuan.mybatis.beans.SHData"
+			alias="SHdata" />
 	</typeAliases>
-	
-	
-    <!-- 配置开发环境，可以配置多个，在具体用时再做切换 -->
-    <environments default="test">
-        <environment id="test">
-            <transactionManager type="JDBC"></transactionManager>    <!-- 事务管理类型：JDBC、MANAGED -->
-            <dataSource type="POOLED">    <!-- 数据源类型：POOLED、UNPOOLED、JNDI -->
-                <property name="driver" value="com.mysql.jdbc.Driver" />
-                <property name="url" value="jdbc:mysql://localhost:3306/mydbtest?characterEncoding=utf-8&amp;useSSL=false" />
-                <property name="username" value="root" />
-                <property name="password" value="123456" />
-            </dataSource>
-        </environment>
-    </environments>
-	
-    <!-- 加载映射文件 mapper -->
-    <mappers>
-        <!-- 路径用 斜线（/） 分割，而不是用 点(.) -->
-        <mapper resource="com/chuan/mybatis/mapper/UserMapper.xml"></mapper>
-    </mappers>
+
+
+	<!-- 配置开发环境，可以配置多个，在具体用时再做切换 -->
+	<environments default="test">
+		<environment id="test">
+			<transactionManager type="JDBC"></transactionManager>    <!-- 事务管理类型：JDBC、MANAGED -->
+			<dataSource type="POOLED">    <!-- 数据源类型：POOLED、UNPOOLED、JNDI -->
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mysql://localhost:3306/mydbtest?characterEncoding=utf-8&amp;useSSL=false" />
+				<property name="username" value="root" />
+				<property name="password" value="123456" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 加载映射文件 mapper -->
+	<mappers>
+		<!-- 路径用 斜线（/） 分割，而不是用 点(.) -->
+		<mapper resource="com/chuan/mybatis/mapper/UserMapper.xml"></mapper>
+	</mappers>
 </configuration>

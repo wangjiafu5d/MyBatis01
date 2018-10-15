@@ -51,4 +51,14 @@ public class TextTool {
 		}
 		return goodsCode;
 	}
+	//去字符串空白字符
+	public static String replaceSpecialStr(String str) {
+        String repl = "";
+        if (str!=null) {
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            repl = m.replaceAll("");
+        }
+        return repl;
+    }
 }

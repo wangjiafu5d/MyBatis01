@@ -16,10 +16,13 @@
     
     <!-- 新增功能，在SQL语句中有参数，并以实体来封装参数 -->
     <insert id="insertHolds" parameterType="Holds">
-        INSERT INTO Holds (id,goods,date,rate,compName,value,increase,type,agreement) VALUES (#{id},#{goods},#{date},#{rate},#{compName},#{value},#{increase},#{type},#{agreement})
+        INSERT INTO Holds (goods,date,rate,compName,value,increase,type,agreement) VALUES (#{goods},#{date},#{rate},#{compName},#{value},#{increase},#{type},#{agreement})
     </insert>
-     <insert id="insertPrice" parameterType="Price">
-        INSERT INTO price (id,goods,date,spotPrice,mainContractPrice,agreement) VALUES (#{id},#{goods},#{date},#{spotPrice},#{mainContractPrice},#{agreement})
+    <insert id="insertPrice" parameterType="Price">
+        INSERT INTO price (goods,date,spotPrice,mainContractPrice,agreement) VALUES (#{goods},#{date},#{spotPrice},#{mainContractPrice},#{agreement})
+    </insert>
+    <insert id="insertSHData" parameterType="SHData">
+        INSERT INTO dailyData (PRODUCTNAME,DELIVERYMONTH,OPENPRICE,HIGHESTPRICE,LOWESTPRICE,CLOSEPRICE,SETTLEMENTPRICE,VOLUME,OPENINTEREST) VALUES (#{PRODUCTNAME},#{DELIVERYMONTH},#{OPENPRICE},#{HIGHESTPRICE},#{LOWESTPRICE},#{CLOSEPRICE},#{SETTLEMENTPRICE},#{VOLUME},#{OPENINTEREST})
     </insert>
     
      <delete id="deleteByDate" parameterType="date">
