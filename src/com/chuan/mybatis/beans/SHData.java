@@ -1,16 +1,19 @@
 package com.chuan.mybatis.beans;
 
+import java.sql.Date;
+
 public class SHData {
 	String PRODUCTID;
 	Integer PRODUCTSORTNO;
+	Date date;
 	String PRODUCTNAME;
 	String DELIVERYMONTH;
 	Integer PRESETTLEMENTPRICE;
-	Integer OPENPRICE;
-	Integer HIGHESTPRICE;
-	Integer LOWESTPRICE;
-	Integer CLOSEPRICE;
-	Integer SETTLEMENTPRICE;
+	Double OPENPRICE;
+	Double HIGHESTPRICE;
+	Double LOWESTPRICE;
+	Double CLOSEPRICE;
+	Double SETTLEMENTPRICE;
 	Integer ZD1_CHG;
 	Integer ZD2_CHG;
 	Integer VOLUME;
@@ -18,6 +21,12 @@ public class SHData {
 	Integer OPENINTERESTCHG;
 	Integer ORDERNO;
 	Integer ORDERNO2;
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	public String getPRODUCTID() {
 		return PRODUCTID;
 	}
@@ -48,34 +57,34 @@ public class SHData {
 	public void setPRESETTLEMENTPRICE(Integer pRESETTLEMENTPRICE) {
 		PRESETTLEMENTPRICE = pRESETTLEMENTPRICE;
 	}
-	public Integer getOPENPRICE() {
+	public Double getOPENPRICE() {
 		return OPENPRICE;
 	}
-	public void setOPENPRICE(Integer oPENPRICE) {
+	public void setOPENPRICE(Double oPENPRICE) {
 		OPENPRICE = oPENPRICE;
 	}
-	public Integer getHIGHESTPRICE() {
+	public Double getHIGHESTPRICE() {
 		return HIGHESTPRICE;
 	}
-	public void setHIGHESTPRICE(Integer hIGHESTPRICE) {
+	public void setHIGHESTPRICE(Double hIGHESTPRICE) {
 		HIGHESTPRICE = hIGHESTPRICE;
 	}
-	public Integer getLOWESTPRICE() {
+	public Double getLOWESTPRICE() {
 		return LOWESTPRICE;
 	}
-	public void setLOWESTPRICE(Integer lOWESTPRICE) {
+	public void setLOWESTPRICE(Double lOWESTPRICE) {
 		LOWESTPRICE = lOWESTPRICE;
 	}
-	public Integer getCLOSEPRICE() {
+	public Double getCLOSEPRICE() {
 		return CLOSEPRICE;
 	}
-	public void setCLOSEPRICE(Integer cLOSEPRICE) {
+	public void setCLOSEPRICE(Double cLOSEPRICE) {
 		CLOSEPRICE = cLOSEPRICE;
 	}
-	public Integer getSETTLEMENTPRICE() {
+	public Double getSETTLEMENTPRICE() {
 		return SETTLEMENTPRICE;
 	}
-	public void setSETTLEMENTPRICE(Integer sETTLEMENTPRICE) {
+	public void setSETTLEMENTPRICE(Double sETTLEMENTPRICE) {
 		SETTLEMENTPRICE = sETTLEMENTPRICE;
 	}
 	public Integer getZD1_CHG() {
@@ -120,5 +129,6 @@ public class SHData {
 	public void setORDERNO2(Integer oRDERNO2) {
 		ORDERNO2 = oRDERNO2;
 	}
+	
 	
 }

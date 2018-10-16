@@ -1,16 +1,25 @@
 package com.chuan.mybatis.beans;
 
+import java.sql.Date;
+
 public class SHDataSum {
 	String PRODUCTID;
 	Integer PRODUCTSORTNO;
+	Date date;
 	String PRODUCTNAME;
-	Integer HIGHESTPRICE;
-	Integer LOWESTPRICE;
-	Integer AVGPRICE;
+	Double HIGHESTPRICE;
+	Double LOWESTPRICE;
+	Double AVGPRICE;
 	Integer VOLUME;
-	Integer TURNOVER;
-	Integer YEARVOLUME;
-	Integer YEARTURNOVER;
+	Double TURNOVER;
+	Double YEARVOLUME;
+	Double YEARTURNOVER;
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	public String getPRODUCTID() {
 		return PRODUCTID;
 	}
@@ -29,22 +38,22 @@ public class SHDataSum {
 	public void setPRODUCTNAME(String pRODUCTNAME) {
 		PRODUCTNAME = pRODUCTNAME;
 	}
-	public Integer getHIGHESTPRICE() {
+	public Double getHIGHESTPRICE() {
 		return HIGHESTPRICE;
 	}
-	public void setHIGHESTPRICE(Integer hIGHESTPRICE) {
+	public void setHIGHESTPRICE(Double hIGHESTPRICE) {
 		HIGHESTPRICE = hIGHESTPRICE;
 	}
-	public Integer getLOWESTPRICE() {
+	public Double getLOWESTPRICE() {
 		return LOWESTPRICE;
 	}
-	public void setLOWESTPRICE(Integer lOWESTPRICE) {
+	public void setLOWESTPRICE(Double lOWESTPRICE) {
 		LOWESTPRICE = lOWESTPRICE;
 	}
-	public Integer getAVGPRICE() {
+	public Double getAVGPRICE() {
 		return AVGPRICE;
 	}
-	public void setAVGPRICE(Integer aVGPRICE) {
+	public void setAVGPRICE(Double aVGPRICE) {
 		AVGPRICE = aVGPRICE;
 	}
 	public Integer getVOLUME() {
@@ -53,22 +62,23 @@ public class SHDataSum {
 	public void setVOLUME(Integer vOLUME) {
 		VOLUME = vOLUME;
 	}
-	public Integer getTURNOVER() {
+	public Double getTURNOVER() {
 		return TURNOVER;
 	}
-	public void setTURNOVER(Integer tURNOVER) {
+	public void setTURNOVER(Double tURNOVER) {
 		TURNOVER = tURNOVER;
 	}
-	public Integer getYEARVOLUME() {
+	public Double getYEARVOLUME() {
 		return YEARVOLUME;
 	}
-	public void setYEARVOLUME(Integer yEARVOLUME) {
+	public void setYEARVOLUME(Double yEARVOLUME) {
 		YEARVOLUME = yEARVOLUME;
 	}
-	public Integer getYEARTURNOVER() {
+	public Double getYEARTURNOVER() {
 		return YEARTURNOVER;
 	}
-	public void setYEARTURNOVER(Integer yEARTURNOVER) {
+	public void setYEARTURNOVER(Double yEARTURNOVER) {
 		YEARTURNOVER = yEARTURNOVER;
 	}
+	
 }
