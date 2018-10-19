@@ -26,7 +26,7 @@ import com.chuan.mybatis.beans.Holds;
 
 public class GetTables {
 	public static void main(String[] args) {
-		String endDate = "2018-10-18";
+		String endDate = "2018-10-19";
 		int totalDays = 1;
 		saveToDB(endDate, totalDays);
 	}
