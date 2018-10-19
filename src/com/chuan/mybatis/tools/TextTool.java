@@ -17,7 +17,7 @@ public class TextTool {
 	}
 	public static String agreementMatch(String agreement) {
 		String result = "";		
-		String reg = "^[0-9]+";
+		String reg = "[0-9]+";
 		Pattern p = Pattern.compile(reg);
 		Matcher m = p.matcher(agreement);
 		if (m.find()) {

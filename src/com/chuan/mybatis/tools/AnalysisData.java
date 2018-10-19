@@ -34,7 +34,8 @@ public class AnalysisData {
 		goodsList.add("pp");
 		goodsList.add("rb");
 		goodsList.add("hc");
-		String endDate = "2018-10-15";
+//		goodsList.add("ru");
+		String endDate = "2018-10-18";
 		for (String goods : goodsList) {
 			outPutDataToFile(goods, endDate, 1, true);
 		}
