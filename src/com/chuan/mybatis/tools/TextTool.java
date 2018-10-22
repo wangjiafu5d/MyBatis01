@@ -53,12 +53,19 @@ public class TextTool {
 	}
 	//去字符串空白字符
 	public static String replaceSpecialStr(String str) {
-        String repl = "";
-        if (str!=null) {
-            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-            Matcher m = p.matcher(str);
-            repl = m.replaceAll("");
-        }
-        return repl;
+      return str.replaceAll("\\s*", "");
     }
+	public static String getChinese(String str) {
+		 StringBuffer repl = new StringBuffer();
+	        String regEx = "[()0-9a-zA-Z\\u4e00-\\u9fa5]+";
+	        if (str!=null) {
+	            Pattern p = Pattern.compile(regEx);
+	            Matcher m = p.matcher(str);
+	            while (m.find()) {
+	            	repl.append(m.group());
+				}
+	        }
+	        return repl.toString();
+	}
+	
 }

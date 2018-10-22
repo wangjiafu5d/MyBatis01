@@ -2,7 +2,7 @@ package com.chuan.mybatis.beans;
 
 import java.sql.Date;
 
-public class SHDataSum {
+public class DailyDataSum {
 	String PRODUCTID;
 	Integer PRODUCTSORTNO;
 	Date date;
@@ -11,9 +11,16 @@ public class SHDataSum {
 	Double LOWESTPRICE;
 	Double AVGPRICE;
 	Integer VOLUME;
+	Integer OPENINTEREST;
 	Double TURNOVER;
 	Double YEARVOLUME;
 	Double YEARTURNOVER;
+	public Integer getOPENINTEREST() {
+		return OPENINTEREST;
+	}
+	public void setOPENINTEREST(Integer oPENINTEREST) {
+		OPENINTEREST = oPENINTEREST;
+	}
 	public Date getDate() {
 		return date;
 	}
@@ -80,5 +87,10 @@ public class SHDataSum {
 	public void setYEARTURNOVER(Double yEARTURNOVER) {
 		YEARTURNOVER = yEARTURNOVER;
 	}
-	
+	@Override
+	public String toString() {
+		return "date: "+ date+"name: "+ PRODUCTNAME + "high: "+ HIGHESTPRICE
+				+ "low: " + LOWESTPRICE + "avgPirce: "+AVGPRICE+"volume: "
+				+ VOLUME + "turnover: "+ TURNOVER+"openinterest: "+ OPENINTEREST;
+	}
 }

@@ -11,10 +11,10 @@
 			alias="Holds" />
 		<typeAlias type="com.chuan.mybatis.beans.SpotAndFuturePrice"
 			alias="Price" />
-		<typeAlias type="com.chuan.mybatis.beans.SHData"
-			alias="SHdata" />
-		<typeAlias type="com.chuan.mybatis.beans.SHDataSum"
-			alias="SHdataSum" />
+		<typeAlias type="com.chuan.mybatis.beans.DailyData"
+			alias="Dailydata" />
+		<typeAlias type="com.chuan.mybatis.beans.DailyDataSum"
+			alias="DailydataSum" />
 		<typeAlias type="com.chuan.mybatis.beans.MetalIndex"
 			alias="MetalIndex" />
 	</typeAliases>

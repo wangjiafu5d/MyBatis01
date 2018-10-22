@@ -21,11 +21,11 @@
     <insert id="insertPrice" parameterType="Price">
         INSERT INTO price (goods,date,spotPrice,mainContractPrice,agreement) VALUES (#{goods},#{date},#{spotPrice},#{mainContractPrice},#{agreement})
     </insert>
-    <insert id="insertSHData" parameterType="SHData">
+    <insert id="insertDailyData" parameterType="DailyData">
         INSERT INTO dailyData (date,PRODUCTNAME,DELIVERYMONTH,OPENPRICE,HIGHESTPRICE,LOWESTPRICE,CLOSEPRICE,SETTLEMENTPRICE,VOLUME,OPENINTEREST) VALUES (#{date},#{PRODUCTNAME},#{DELIVERYMONTH},#{OPENPRICE},#{HIGHESTPRICE},#{LOWESTPRICE},#{CLOSEPRICE},#{SETTLEMENTPRICE},#{VOLUME},#{OPENINTEREST})
     </insert>
-    <insert id="insertSHDataSum" parameterType="SHDataSum">
-        INSERT INTO dailyDataSum (date,PRODUCTNAME,HIGHESTPRICE,LOWESTPRICE,AVGPRICE,VOLUME,TURNOVER,YEARVOLUME,YEARTURNOVER) VALUES (#{date},#{PRODUCTNAME},#{HIGHESTPRICE},#{LOWESTPRICE},#{AVGPRICE},#{VOLUME},#{TURNOVER},#{YEARVOLUME},#{YEARTURNOVER})
+    <insert id="insertDailyDataSum" parameterType="DailyDataSum">
+        INSERT INTO dailyDataSum (date,PRODUCTNAME,HIGHESTPRICE,LOWESTPRICE,AVGPRICE,VOLUME,TURNOVER,OPENINTEREST) VALUES (#{date},#{PRODUCTNAME},#{HIGHESTPRICE},#{LOWESTPRICE},#{AVGPRICE},#{VOLUME},#{TURNOVER},#{OPENINTEREST})
     </insert>
     <insert id="insertMetalIndex" parameterType="MetalIndex">
         INSERT INTO metalIndex (date,LASTPRICE,OPENPRICE,CLOSEPRICE,PRECLOSEPRICE,UPDOWN,UPDOWN1,UPDOWN2,HIGHESTPRICE,LOWESTPRICE,AVGPRICE,SETTLEMENTPRICE) VALUES (#{date},#{LASTPRICE},#{OPENPRICE},#{CLOSEPRICE},#{PRECLOSEPRICE},#{UPDOWN},#{UPDOWN1},#{UPDOWN2},#{HIGHESTPRICE},#{LOWESTPRICE},#{AVGPRICE},#{SETTLEMENTPRICE})

@@ -2,7 +2,7 @@ package com.chuan.mybatis.beans;
 
 import java.sql.Date;
 
-public class SHData {
+public class DailyData {
 	String PRODUCTID;
 	Integer PRODUCTSORTNO;
 	Date date;
