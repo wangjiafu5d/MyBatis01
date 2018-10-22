@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.chuan.mybatis.beans.AnalysisResult;
+import com.chuan.mybatis.beans.DailyDataSum;
 import com.chuan.mybatis.beans.Holds;
 
 public class AnalysisData {
@@ -35,15 +36,26 @@ public class AnalysisData {
 		goodsList.add("rb");
 		goodsList.add("hc");
 //		goodsList.add("ru");
-		String endDate = "2018-10-19";
+		String endDate = "2018-10-22";
 		for (String goods : goodsList) {
-			outPutDataToFile(goods, endDate, 1, true);
+			Thread thread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					outPutDataToFile(goods, endDate, 200, true);
+				}
+			});
+			thread.start();
 		}
 	}
 
 	public static AnalysisResult analysis(String goods, String date) {
 		AnalysisResult analysisResult = new AnalysisResult();
 		analysisResult.setDate(date);
+		Map<String, String> nameCodeMap = GetDailyData.getGoodsCode();
+		String name = nameCodeMap.get(goods);
+		Map<String, DailyDataSum> dailyDataSumMap = GetHoldsFromDB.getDailyDataSum(name, date);
+		analysisResult.setAvgPrice(dailyDataSumMap.get(name).getAVGPRICE());
 		List<Holds> holdsList = GetHoldsFromDB.getHolds(goods, date);
 		Map<String, Integer> volumeList = new HashMap<String, Integer>();
 		Map<String, Integer> buyList = new HashMap<String, Integer>();
@@ -135,16 +147,22 @@ public class AnalysisData {
 		}
 		for (int i = 0; i < days; i++) {
 			String inputDate = DateTool.dateAdd(endDate, -i);
+			Map<String, String> nameCodeMap = GetDailyData.getGoodsCode();
+			String name = nameCodeMap.get(goods);
+			Map<String, DailyDataSum> dailyDataSumMap = GetHoldsFromDB.getDailyDataSum(name, inputDate);
+			if (dailyDataSumMap.get(name) == null) {
+				continue;
+			}
 			if (DateTool.isWeekend(inputDate)) {
 				continue;
 			}
 			try {
 				AnalysisResult result = analysis(goods, inputDate);
-				if (i == 0&&!append) {
+				if (i == 0 && !append) {
 					br.write("日期" + "\t" + "结算价" + "\t" + "成交前十" + "\t" + "成交二十" + "\t" + "多头前十" + "\t" + "多头二十" + "\t"
 							+ "空头前十" + "\t" + "空头二十" + "\t" + "永安成交" + "\t" + "永安多仓" + "\t" + "永安空仓" + "\r\n");
 				}
-				br.write(result.getDate() + "\t" + " " + "\t" + result.getVolumeTopTen() + "\t"
+				br.write(result.getDate() + "\t" + result.getAvgPrice() + "\t" + result.getVolumeTopTen() + "\t"
 						+ result.getVolumeTopTwenty() + "\t" + result.getBuyTopTen() + "\t" + result.getBuyTopTwenty()
 						+ "\t" + result.getSellTopTen() + "\t" + result.getSellTopTwenty() + "\t" + result.getYAVolume()
 						+ "\t" + result.getYABuy() + "\t" + result.getYASell() + "\r\n");

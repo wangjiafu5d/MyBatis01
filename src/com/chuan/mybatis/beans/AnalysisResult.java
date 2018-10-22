@@ -2,6 +2,7 @@ package com.chuan.mybatis.beans;
 
 public class AnalysisResult {
 	public String date;
+	public Double avgPrice;
 	public Integer volumeTopTen;
 	public Integer volumeTopTwenty;
 	public Integer sellTopTen;
@@ -11,6 +12,12 @@ public class AnalysisResult {
 	public Integer YAVolume;
 	public Integer YABuy;
 	public Integer YASell;
+	public Double getAvgPrice() {
+		return avgPrice;
+	}
+	public void setAvgPrice(Double avgPrice) {
+		this.avgPrice = avgPrice;
+	}
 	public String getDate() {
 		return date;
 	}

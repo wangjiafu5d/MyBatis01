@@ -39,34 +39,41 @@ public class GetDailyData {
 	public static Map<String, Integer> weightMap = getOneHandWeight();
 	public static int ONEHUNDREDMILLION = 100000000;
 	public static String date = "2018-10-22";
+
 	public static void main(String[] args) {
 		Long start = System.currentTimeMillis();
-		CountDownLatch countDownLatch = new CountDownLatch(3);
-		new Thread() {
-			public void run() {
-				getSHDailyData(date);
-				countDownLatch.countDown();
-			}; 
-		}.start();
-		new Thread() {
-			public void run() {
-				getZZDailyData(date);	
-				countDownLatch.countDown();
-			}; {};
-		}.start();
-		new Thread() {
-			public void run() {
-				getDLDailyData(date);	
-				countDownLatch.countDown();
-			}; {};
-		}.start();
-		try {
-			countDownLatch.await();
-		} catch (InterruptedException e) {			
-			e.printStackTrace();
+		List<String> holyday = new ArrayList<String>();
+		for (int i = 0; i < 500; i++) {
+			String inputDate = DateTool.dateAdd(date, 0 - i);
+//			System.out.println(inputDate);
+			if (DateTool.isWeekend(inputDate) || inputDate.equals("2018-10-05") || inputDate.equals("2018-10-04")
+					|| inputDate.equals("2018-10-03")|| inputDate.equals("2018-10-02")
+					|| inputDate.equals("2018-10-01")|| inputDate.equals("2018-09-24")
+					|| inputDate.equals("2018-06-18")|| inputDate.equals("2018-05-01")
+					|| inputDate.equals("2018-04-30")|| inputDate.equals("2018-04-06")
+					|| inputDate.equals("2018-04-05")|| inputDate.equals("2018-02-21")
+					|| inputDate.equals("2018-02-20")|| inputDate.equals("2018-02-19")
+					|| inputDate.equals("2018-02-16")|| inputDate.equals("2018-02-15")) {
+				continue;
+			}
+			if (inputDate.equals("2018-01-01")) {
+				break;
+			}
+			try {
+				getSHDailyData(inputDate);
+				getZZDailyData(inputDate);
+				getDLDailyData(inputDate);
+			} catch (Exception e) {
+				holyday.add(inputDate);
+				System.out.println(inputDate);
+			}
+
+		}
+		for (String string : holyday) {
+			System.out.println(string);
 		}
 		Long end = System.currentTimeMillis();
-		System.out.println((end-start)/1000.0);
+		System.out.println((end - start) / 1000.0);
 	}
 
 	public static void test() {
@@ -74,7 +81,7 @@ public class GetDailyData {
 	}
 
 	public static void getSHDailyData(String date) {
-		Map<String,DailyDataSum> agreementInfMap = new HashMap<String,DailyDataSum>();
+		Map<String, DailyDataSum> agreementInfMap = new HashMap<String, DailyDataSum>();
 		String url = "http://www.shfe.com.cn/data/dailydata/kx/kx" + date.replaceAll("-", "") + ".dat";
 		Date sqlDate = Date.valueOf(date);
 		try {
@@ -139,7 +146,7 @@ public class GetDailyData {
 	public static void getZZDailyData(String date) {
 		String url = "http://www.czce.com.cn/";
 		Date sqlDate = Date.valueOf(date);
-		Map<String,DailyDataSum> agreementInfMap = new HashMap<String,DailyDataSum>();
+		Map<String, DailyDataSum> agreementInfMap = new HashMap<String, DailyDataSum>();
 		try {
 			Connection con = Jsoup.connect(url);
 			con.header("Accept", "text/html, application/xhtml+xml, */*");
@@ -203,7 +210,7 @@ public class GetDailyData {
 	}
 
 	public static void getDLDailyData(String date) {
-		Map<String,DailyDataSum> agreementInfMap = new HashMap<String,DailyDataSum>();
+		Map<String, DailyDataSum> agreementInfMap = new HashMap<String, DailyDataSum>();
 		Date sqlDate = Date.valueOf(date);
 		String url = "http://www.dce.com.cn/publicweb/quotesdata/dayQuotesCh.html";
 		Connection conn = Jsoup.connect(url);
@@ -220,9 +227,7 @@ public class GetDailyData {
 			Response resp = conn.header("Accept", "text/html, application/xhtml+xml, */*")
 					.header("Content-Type", "application/x-www-form-urlencoded")
 					.header("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0))")
-					.data(postInfMap)
-					.method(Method.POST)
-					.execute();
+					.data(postInfMap).method(Method.POST).execute();
 			Document doc = Jsoup.parse(resp.body().replaceAll("-", "0"));
 			Element table = doc.getElementsByTag("tbody").first();
 //			System.out.println(resp.body());
@@ -232,8 +237,8 @@ public class GetDailyData {
 				DailyData item = new DailyData();
 				Elements tds = tr.children();
 				String name = TextTool.getChinese(tds.get(0).text());
-				if (name.equals("纤维板")||name.equals("胶合板")) {					
-					continue ;
+				if (name.equals("纤维板") || name.equals("胶合板")) {
+					continue;
 				}
 				String agreement = TextTool.agreementMatch(tds.get(1).text());
 				if (agreement.equals("") || tds.size() < 12) {
@@ -262,7 +267,8 @@ public class GetDailyData {
 			e.printStackTrace();
 		}
 	}
-	public static Map<String,DailyDataSum> dailyDataSum(Map<String,DailyDataSum> map,DailyData item) {
+
+	public static Map<String, DailyDataSum> dailyDataSum(Map<String, DailyDataSum> map, DailyData item) {
 		Date date = item.getDate();
 		String name = item.getPRODUCTNAME();
 		Double highPrice = item.getHIGHESTPRICE();
@@ -272,58 +278,80 @@ public class GetDailyData {
 		Integer openinterst = item.getOPENINTEREST();
 		Integer weight = weightMap.get(name);
 		DailyDataSum value = map.get(name);
-		if (value==null) {
-			 value = new DailyDataSum();			
-			 value.setHIGHESTPRICE(highPrice);
-			 value.setLOWESTPRICE(lowPrice);
-			 value.setAVGPRICE(avgPrice);
-			 value.setVOLUME(volume);
-			 value.setOPENINTEREST(openinterst);
-			 BigDecimal sum = new BigDecimal(weight).multiply(new BigDecimal(volume))
-					 .multiply(new BigDecimal(avgPrice)).divide(new BigDecimal(ONEHUNDREDMILLION));
-			 value.setTURNOVER(sum.doubleValue());
-		}else {
-			if (highPrice>value.getHIGHESTPRICE()) {
+		if (value == null) {
+			value = new DailyDataSum();
+			value.setHIGHESTPRICE(highPrice);
+			value.setLOWESTPRICE(lowPrice);
+			value.setAVGPRICE(avgPrice);
+			value.setVOLUME(volume);
+			value.setOPENINTEREST(openinterst);
+			BigDecimal sum = new BigDecimal(weight).multiply(new BigDecimal(volume)).multiply(new BigDecimal(avgPrice))
+					.divide(new BigDecimal(ONEHUNDREDMILLION));
+			value.setTURNOVER(sum.doubleValue());
+		} else {
+			if (highPrice > value.getHIGHESTPRICE()) {
 				value.setHIGHESTPRICE(highPrice);
-			}if (value.getLOWESTPRICE()==0||(lowPrice<value.getLOWESTPRICE()&&lowPrice!=0)) {
+			}
+			if (value.getLOWESTPRICE() == 0 || (lowPrice < value.getLOWESTPRICE() && lowPrice != 0)) {
 				value.setLOWESTPRICE(lowPrice);
 			}
-			value.setAVGPRICE((value.getAVGPRICE()*value.getVOLUME()+ avgPrice*volume)
-					/(value.getVOLUME()+volume+0.000001));
-			value.setVOLUME(volume+value.getVOLUME());
+			value.setAVGPRICE((value.getAVGPRICE() * value.getVOLUME() + avgPrice * volume)
+					/ (value.getVOLUME() + volume + 0.000001));
+			value.setVOLUME(volume + value.getVOLUME());
 			value.setOPENINTEREST(openinterst + value.getOPENINTEREST());
-			BigDecimal sum = new BigDecimal(weight).multiply(new BigDecimal(volume))
-					 .multiply(new BigDecimal(avgPrice)).divide(new BigDecimal(ONEHUNDREDMILLION));
-			value.setTURNOVER(value.getTURNOVER()+sum.doubleValue());
+			BigDecimal sum = new BigDecimal(weight).multiply(new BigDecimal(volume)).multiply(new BigDecimal(avgPrice))
+					.divide(new BigDecimal(ONEHUNDREDMILLION));
+			value.setTURNOVER(value.getTURNOVER() + sum.doubleValue());
 		}
-		 value.setPRODUCTNAME(name);
-		 value.setDate(date);
-		 map.put(name, value);
-		 return map;
+		value.setPRODUCTNAME(name);
+		value.setDate(date);
+		map.put(name, value);
+		return map;
 	}
+
 	public static Map<String, Integer> getOneHandWeight() {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		List<AgreementInf> list = new ArrayList<AgreementInf>();
-		StringBuffer sb = new StringBuffer();
-		 BufferedReader br = null;		   
-		    try {
-				br = new BufferedReader(new InputStreamReader(Resources.getResourceAsStream("com\\chuan\\mybatis\\assets\\agreementJsonInf.txt"),"utf-8"));
-				String line = null;
-			    while ((line = br.readLine())!=null) {	    	
-			    	sb.append(line);
-			    }
-			    br.close();
-			} catch (FileNotFoundException e) {
-				System.out.println("文件输入流出错");
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		Gson gson = new Gson();
-		list = gson.fromJson(sb.toString(), new TypeToken<List<AgreementInf>>() {}.getType());
+		list = gson.fromJson(getAgreementJsonInf(), new TypeToken<List<AgreementInf>>() {
+		}.getType());
 		for (AgreementInf agreementInf : list) {
 			map.put(agreementInf.getName(), agreementInf.getOneHandWeight());
 		}
 		return map;
 	}
+
+	public static Map<String, String> getGoodsCode() {
+		Map<String, String> map = new HashMap<String, String>();
+		List<AgreementInf> list = new ArrayList<AgreementInf>();
+		Gson gson = new Gson();
+		list = gson.fromJson(getAgreementJsonInf(), new TypeToken<List<AgreementInf>>() {
+		}.getType());
+		for (AgreementInf agreementInf : list) {
+			map.put(agreementInf.getCode(), agreementInf.getName());
+		}
+		map.put("pvc", "聚氯乙烯");
+		return map;
+	}
+
+	public static String getAgreementJsonInf() {
+		StringBuffer sb = new StringBuffer();
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(
+					Resources.getResourceAsStream("com\\chuan\\mybatis\\assets\\agreementJsonInf.txt"), "utf-8"));
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("文件输入流出错");
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
+
 }

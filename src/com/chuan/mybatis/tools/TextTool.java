@@ -23,7 +23,7 @@ public class TextTool {
 		if (m.find()) {
 			result = m.group(0);
 		} else {
-			System.out.println("未匹配到合约名");
+//			System.out.println("未匹配到合约名");
 		}
 		return result;
 	}
@@ -35,7 +35,7 @@ public class TextTool {
 		if (m.find()) {
 			result = m.group(0);
 		} else {
-			System.out.println("未匹配到价格");
+//			System.out.println("未匹配到价格");
 		}
 		return result;
 	}
@@ -47,7 +47,7 @@ public class TextTool {
 		if (m.find()) {
 			goodsCode = m.group(0);
 		} else {
-			System.out.println("未匹配到商品名称");
+//			System.out.println("未匹配到商品名称");
 		}
 		return goodsCode;
 	}

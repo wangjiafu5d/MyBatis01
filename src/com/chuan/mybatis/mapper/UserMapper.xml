@@ -13,6 +13,9 @@
     <select id="findByGoodsAndDate" resultType="Holds">  <!-- 书写 SQL 语句 -->
         SELECT * FROM Holds where goods = #{goods} and date = #{date}
     </select>
+    <select id="findDailyDataSum" resultType="DailyDataSum">  <!-- 书写 SQL 语句 -->
+        SELECT * FROM dailyDataSum where PRODUCTNAME = #{PRODUCTNAME} and date = #{date}
+    </select>
     
     <!-- 新增功能，在SQL语句中有参数，并以实体来封装参数 -->
     <insert id="insertHolds" parameterType="Holds">
