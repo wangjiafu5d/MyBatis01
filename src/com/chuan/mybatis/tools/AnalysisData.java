@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 import com.chuan.mybatis.beans.AnalysisResult;
 import com.chuan.mybatis.beans.DailyDataSum;
 import com.chuan.mybatis.beans.Holds;
-
+//给mysql表添加索引，大幅提高查询速度，降低cpu占用
 public class AnalysisData {
 	public static void main(String[] args) {
 		List<String> goodsList = new ArrayList<String>();
@@ -85,9 +85,9 @@ public class AnalysisData {
 			}
 		}
 		String YAName = "永安期货";
-		analysisResult.setYAVolume(volumeList.get(YAName));
-		analysisResult.setYABuy(buyList.get(YAName));
-		analysisResult.setYASell(sellList.get(YAName));
+		analysisResult.setYAVolume(volumeList.get(YAName)==null?0:volumeList.get(YAName));
+		analysisResult.setYABuy(buyList.get(YAName)==null?0:buyList.get(YAName));
+		analysisResult.setYASell(sellList.get(YAName)==null?0:sellList.get(YAName));
 
 		LinkedHashMap<String, Integer> volumeLinked = sortMap(volumeList);
 		LinkedHashMap<String, Integer> buyLinked = sortMap(buyList);
