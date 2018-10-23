@@ -42,7 +42,7 @@ public class AnalysisData {
 
 				@Override
 				public void run() {
-					outPutDataToFile(goods, endDate, 200, true);
+					outPutDataToFile(goods, endDate, 295, true);
 				}
 			});
 			thread.start();
@@ -137,9 +137,9 @@ public class AnalysisData {
 				e.printStackTrace();
 			}
 		}
-		BufferedWriter br = null;
+		BufferedWriter bw = null;
 		try {
-			br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append), "utf-8"));
+			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append), "utf-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
@@ -159,14 +159,14 @@ public class AnalysisData {
 			try {
 				AnalysisResult result = analysis(goods, inputDate);
 				if (i == 0 && !append) {
-					br.write("日期" + "\t" + "结算价" + "\t" + "成交前十" + "\t" + "成交二十" + "\t" + "多头前十" + "\t" + "多头二十" + "\t"
+					bw.write("日期" + "\t" + "结算价" + "\t" + "成交前十" + "\t" + "成交二十" + "\t" + "多头前十" + "\t" + "多头二十" + "\t"
 							+ "空头前十" + "\t" + "空头二十" + "\t" + "永安成交" + "\t" + "永安多仓" + "\t" + "永安空仓" + "\r\n");
 				}
-				br.write(result.getDate() + "\t" + result.getAvgPrice() + "\t" + result.getVolumeTopTen() + "\t"
+				bw.write(result.getDate() + "\t" + result.getAvgPrice() + "\t" + result.getVolumeTopTen() + "\t"
 						+ result.getVolumeTopTwenty() + "\t" + result.getBuyTopTen() + "\t" + result.getBuyTopTwenty()
 						+ "\t" + result.getSellTopTen() + "\t" + result.getSellTopTwenty() + "\t" + result.getYAVolume()
 						+ "\t" + result.getYABuy() + "\t" + result.getYASell() + "\r\n");
-				br.flush();
+				bw.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -174,7 +174,7 @@ public class AnalysisData {
 //			System.out.println(analysis("ma", date));			
 		}
 		try {
-			br.close();
+			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

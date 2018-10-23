@@ -9,9 +9,9 @@ public class AnalysisResult {
 	public Integer buyTopTen;
 	public Integer sellTopTwenty;
 	public Integer buyTopTwenty;
-	public Integer YAVolume;
-	public Integer YABuy;
-	public Integer YASell;
+	public Integer YAVolume=0;
+	public Integer YABuy=0;
+	public Integer YASell=0;
 	public Double getAvgPrice() {
 		return avgPrice;
 	}
