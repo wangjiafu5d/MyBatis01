@@ -36,13 +36,13 @@ public class AnalysisData {
 		goodsList.add("rb");
 		goodsList.add("hc");
 //		goodsList.add("ru");
-		String endDate = "2018-10-22";
+		String endDate = "2018-10-30";
 		for (String goods : goodsList) {
 			Thread thread = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
-					outPutDataToFile(goods, endDate, 295, true);
+					outPutDataToFile(goods, endDate, 1, true);
 				}
 			});
 			thread.start();

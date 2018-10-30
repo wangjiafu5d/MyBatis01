@@ -38,7 +38,7 @@ public class AnalysisDataClear {
 							new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "utf-8"));
 					String line = null;
 					while ((line = br.readLine()) != null) {
-						list.add(line);
+						list.add(line+"\t"+file.getName());
 					}
 					br.close();
 				} catch (FileNotFoundException e) {

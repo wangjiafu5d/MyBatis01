@@ -38,12 +38,12 @@ import com.google.gson.reflect.TypeToken;
 public class GetDailyData {
 	public static Map<String, Integer> weightMap = getOneHandWeight();
 	public static int ONEHUNDREDMILLION = 100000000;
-	public static String date = "2018-10-22";
+	public static String date = "2018-10-29";
 
 	public static void main(String[] args) {
 		Long start = System.currentTimeMillis();
 		List<String> holyday = new ArrayList<String>();
-		for (int i = 0; i < 500; i++) {
+		for (int i = 0; i < 1; i++) {
 			String inputDate = DateTool.dateAdd(date, 0 - i);
 //			System.out.println(inputDate);
 			if (DateTool.isWeekend(inputDate) || inputDate.equals("2018-10-05") || inputDate.equals("2018-10-04")
@@ -56,16 +56,26 @@ public class GetDailyData {
 					|| inputDate.equals("2018-02-16")|| inputDate.equals("2018-02-15")) {
 				continue;
 			}
-			if (inputDate.equals("2018-01-01")) {
-				break;
+//			if (inputDate.equals("2018-01-01")) {
+//				break;
+//			}
+			try {
+				getSHDailyData(inputDate);				
+			} catch (Exception e) {
+				holyday.add("上海未成功爬虫： "+inputDate);
+				System.out.println("上海未成功爬虫： "+inputDate);
 			}
 			try {
-				getSHDailyData(inputDate);
-				getZZDailyData(inputDate);
+				getZZDailyData(inputDate);				
+			} catch (Exception e) {
+				holyday.add("郑州未成功爬虫： "+inputDate);
+				System.out.println("郑州未成功爬虫： "+inputDate);
+			}
+			try {
 				getDLDailyData(inputDate);
 			} catch (Exception e) {
-				holyday.add(inputDate);
-				System.out.println(inputDate);
+				holyday.add("大连未成功爬虫： "+inputDate);
+				System.out.println("大连未成功爬虫： "+inputDate);
 			}
 
 		}
@@ -271,12 +281,15 @@ public class GetDailyData {
 	public static Map<String, DailyDataSum> dailyDataSum(Map<String, DailyDataSum> map, DailyData item) {
 		Date date = item.getDate();
 		String name = item.getPRODUCTNAME();
-		Double highPrice = item.getHIGHESTPRICE();
-		Double lowPrice = item.getLOWESTPRICE();
-		Double avgPrice = item.getSETTLEMENTPRICE();
-		Integer volume = item.getVOLUME();
-		Integer openinterst = item.getOPENINTEREST();
+		Double highPrice = (item.getHIGHESTPRICE()==null?0:item.getHIGHESTPRICE());
+		Double lowPrice = (item.getLOWESTPRICE()==null?0:item.getLOWESTPRICE());
+		Double avgPrice = (item.getSETTLEMENTPRICE()==null?0:item.getSETTLEMENTPRICE());
+		Integer volume = (item.getVOLUME()==null?0:item.getVOLUME());
+		Integer openinterst = (item.getOPENINTEREST()==null?0:item.getOPENINTEREST());
 		Integer weight = weightMap.get(name);
+		if (weight==null) {
+			System.out.println("weightMap.get("+name+"): 为空");			
+		}
 		DailyDataSum value = map.get(name);
 		if (value == null) {
 			value = new DailyDataSum();

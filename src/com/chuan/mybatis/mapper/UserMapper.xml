@@ -39,4 +39,10 @@
     <delete id="deleteOneDay" parameterType="date">
        DELETE  FROM Holds WHERE date = #{date}
     </delete>
+    <delete id="deleteOneDailyData" parameterType="date">
+       DELETE  FROM dailydata WHERE date = #{date}
+    </delete>
+    <delete id="deleteOneDailyDataSum" parameterType="date">
+       DELETE  FROM dailydatasum WHERE date = #{date}
+    </delete>
 </mapper>
