@@ -81,7 +81,7 @@ public class GetTables {
 			// e1.printStackTrace();
 			// }
 			try {
-				Document doc = Jsoup.connect(url).timeout(2000).get();
+				Document doc = Jsoup.connect(url).timeout(5000).get();
 				Elements trs = doc.select("tr");
 				// System.out.println(trs.size());
 				back: for (int j = 4; j < trs.size(); j++) {

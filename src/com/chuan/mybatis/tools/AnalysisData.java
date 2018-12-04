@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +22,7 @@ import java.util.Map.Entry;
 import com.chuan.mybatis.beans.AnalysisResult;
 import com.chuan.mybatis.beans.DailyDataSum;
 import com.chuan.mybatis.beans.Holds;
+
 //给mysql表添加索引，大幅提高查询速度，降低cpu占用
 public class AnalysisData {
 	public static void main(String[] args) {
@@ -35,21 +38,22 @@ public class AnalysisData {
 		goodsList.add("pp");
 		goodsList.add("rb");
 		goodsList.add("hc");
-//		goodsList.add("ru");
-		String endDate = "2018-10-30";
+		goodsList.add("ru");
+		goodsList.add("zc");
+		String endDate = "2018-12-04";
 		for (String goods : goodsList) {
 			Thread thread = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
-					outPutDataToFile(goods, endDate, 1, true);
+					outPutDataToFile(goods, endDate, 1, true,"永安期货");
 				}
 			});
 			thread.start();
 		}
 	}
 
-	public static AnalysisResult analysis(String goods, String date) {
+	public static AnalysisResult analysis(String goods, String date, String outCompName) {
 		AnalysisResult analysisResult = new AnalysisResult();
 		analysisResult.setDate(date);
 		Map<String, String> nameCodeMap = GetDailyData.getGoodsCode();
@@ -84,10 +88,10 @@ public class AnalysisData {
 				break;
 			}
 		}
-		String YAName = "永安期货";
-		analysisResult.setYAVolume(volumeList.get(YAName)==null?0:volumeList.get(YAName));
-		analysisResult.setYABuy(buyList.get(YAName)==null?0:buyList.get(YAName));
-		analysisResult.setYASell(sellList.get(YAName)==null?0:sellList.get(YAName));
+
+		analysisResult.setYAVolume(volumeList.get(outCompName) == null ? 0 : volumeList.get(outCompName));
+		analysisResult.setYABuy(buyList.get(outCompName) == null ? 0 : buyList.get(outCompName));
+		analysisResult.setYASell(sellList.get(outCompName) == null ? 0 : sellList.get(outCompName));
 
 		LinkedHashMap<String, Integer> volumeLinked = sortMap(volumeList);
 		LinkedHashMap<String, Integer> buyLinked = sortMap(buyList);
@@ -128,7 +132,8 @@ public class AnalysisData {
 		return sum;
 	}
 
-	public static void outPutDataToFile(String goods, String endDate, Integer days, Boolean append) {
+	public static void outPutDataToFile(String goods, String endDate, Integer days, Boolean append,
+			String outCompName) {
 		File file = new File("C:\\Users\\chuan\\desktop\\DailyData\\" + goods + ".xlsx");
 		if (!file.exists()) {
 			try {
@@ -157,17 +162,23 @@ public class AnalysisData {
 				continue;
 			}
 			try {
-				AnalysisResult result = analysis(goods, inputDate);
+				AnalysisResult result = analysis(goods, inputDate, outCompName);
 				if (i == 0 && !append) {
 					bw.write("日期" + "\t" + "结算价" + "\t" + "成交前十" + "\t" + "成交二十" + "\t" + "多头前十" + "\t" + "多头二十" + "\t"
 							+ "空头前十" + "\t" + "空头二十" + "\t" + "永安成交" + "\t" + "永安多仓" + "\t" + "永安空仓" + "\r\n");
 				}
-				bw.write(result.getDate() + "\t" + result.getAvgPrice() + "\t" + result.getVolumeTopTen() + "\t"
+				SimpleDateFormat sdfSource = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdfDest = new SimpleDateFormat("MM/dd");
+				
+				bw.write(sdfDest.format(sdfSource.parse(result.getDate())) + "\t" + result.getAvgPrice() + "\t" + result.getVolumeTopTen() + "\t"
 						+ result.getVolumeTopTwenty() + "\t" + result.getBuyTopTen() + "\t" + result.getBuyTopTwenty()
 						+ "\t" + result.getSellTopTen() + "\t" + result.getSellTopTwenty() + "\t" + result.getYAVolume()
 						+ "\t" + result.getYABuy() + "\t" + result.getYASell() + "\r\n");
 				bw.flush();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

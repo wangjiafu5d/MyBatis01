@@ -12,8 +12,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.ibatis.io.Resources;
 
@@ -26,7 +28,7 @@ import com.chuan.mybatis.tools.GetHoldsFromDB;
 public class AnalysisDataClear {
 	public static void main(String[] args) {
 
-		List<String> list = new ArrayList<String>();
+		Map<String, String> list = new HashMap<String, String>();
 		BufferedReader br = null;
 		String directoryPath = "C:\\Users\\chuan\\Desktop\\DailyData";
 		File dir = new File(directoryPath);
@@ -38,7 +40,7 @@ public class AnalysisDataClear {
 							new InputStreamReader(new FileInputStream(file.getAbsolutePath()), "utf-8"));
 					String line = null;
 					while ((line = br.readLine()) != null) {
-						list.add(line+"\t"+file.getName());
+						list.put(file.getName(),line+"\t"+file.getName());
 					}
 					br.close();
 				} catch (FileNotFoundException e) {
@@ -67,9 +69,28 @@ public class AnalysisDataClear {
 			e.printStackTrace();
 		}
 		try {
-			for (String string : list) {
-				bw.write(string + "\r\n");
-			}
+			bw.write(list.get("al.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("cu.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("ni.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("zn.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("bu.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("hc.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("rb.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("fg.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("ma.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("pp.xlsx"));
+			bw.write("\r\n");
+			bw.write(list.get("ta.xlsx"));
+			bw.write("\r\n");
 			bw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

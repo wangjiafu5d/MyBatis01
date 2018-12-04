@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 public class DeleteDailyData {
 	public static void main(String[] args) {
-		deleteOneDay("2018-10-24");
+		deleteOneDay("2018-12-04");
 	}
 	public static void deleteOneDay(String strDate) {
 

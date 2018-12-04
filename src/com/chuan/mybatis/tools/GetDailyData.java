@@ -250,6 +250,7 @@ public class GetDailyData {
 				if (name.equals("纤维板") || name.equals("胶合板")) {
 					continue;
 				}
+				//System.out.println(name);
 				String agreement = TextTool.agreementMatch(tds.get(1).text());
 				if (agreement.equals("") || tds.size() < 12) {
 					continue;
@@ -288,7 +289,7 @@ public class GetDailyData {
 		Integer openinterst = (item.getOPENINTEREST()==null?0:item.getOPENINTEREST());
 		Integer weight = weightMap.get(name);
 		if (weight==null) {
-			System.out.println("weightMap.get("+name+"): 为空");			
+			System.out.println("weightMap.get("+name+"): 为空");				
 		}
 		DailyDataSum value = map.get(name);
 		if (value == null) {
